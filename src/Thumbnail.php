@@ -92,15 +92,15 @@ class Thumbnail
      *
      * @param string      $path
      * @param string|null $file
-     * @param int|null    $width
-     * @param int|null    $height
+     * @param string|null $width
+     * @param string|null $height
      * @param array       $flags
      * @param int|null    $quality
      * @return string
      * @throws \Nette\Utils\UnknownImageFileException
      * @throws \Exception
      */
-    public static function getSrcPath(string $path, string $file = null, int $width = null, int $height = null, array $flags = [], int $quality = null): string
+    public static function getSrcPath(string $path, string $file = null, string $width = null, string $height = null, array $flags = [], int $quality = null): string
     {
         // create thumbnail dir
         if (!file_exists(self::$parameters['thumbPath'])) {
@@ -141,14 +141,14 @@ class Thumbnail
      *
      * @param string      $path
      * @param string|null $file
-     * @param int|null    $width
-     * @param int|null    $height
+     * @param null        $width
+     * @param null        $height
      * @param array       $flags
      * @param int|null    $quality
      * @return string
      * @throws \Nette\Utils\UnknownImageFileException
      */
-    private static function resizeImage(string $path, string $file = null, int $width = null, int $height = null, array $flags = [], int $quality = null)
+    private static function resizeImage(string $path, string $file = null, $width = null, $height = null, array $flags = [], int $quality = null)
     {
         if ($flags) {
             $flag = self::getImageFlag($flags);
@@ -164,7 +164,9 @@ class Thumbnail
         // get path name from src
         $pathInfo = pathinfo($src);
 
-        $destination = self::$parameters['thumbPath'] . $pathInfo['filename'] . '_w' . $width . 'h' . $height . 'f' . $flag . 'q' . $quality . '.' . $pathInfo['extension'];
+        // sanitize name
+        $replace = ['%' => 'P'];
+        $destination = str_replace(array_keys($replace), $replace, self::$parameters['thumbPath'] . $pathInfo['filename'] . '_w' . $width . 'h' . $height . 'f' . $flag . 'q' . $quality . '.' . $pathInfo['extension']);
         if (file_exists($src) && !file_exists($destination)) {
             $image = Image::fromFile($src);
             if ($width || $height) {
