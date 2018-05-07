@@ -71,4 +71,5 @@ usage:
 presenters:
 ```php
 Thumbnail::cleanThumbnail(): int
+Thumbnail::synchronizeThumbnail([__DIR__.'/../../www/images/']) : int
 ```
