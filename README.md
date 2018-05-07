@@ -24,6 +24,14 @@ Include in application
 
 default resize flag: `SHRINK_ONLY`, via: https://doc.nette.org/cs/2.4/images
 
+Quality
+-------
+via: https://api.nette.org/2.4/source-Utils.Image.php.html#512-549
+- JPEG - 0-100; default: 85
+- PNG - 0-9; default: 9
+- GIF - nothing
+- WEBP - 0-100; default: 80
+
 neon configure:
 ```neon
 # thumbnail
