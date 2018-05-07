@@ -32,8 +32,41 @@ class Thumbnail
     }
 
 
-    //TODO metodu statickou na synchronizaci konktretni slozky s filesystemem!
-    //TODO synchronize list path + thumb files
+    /**
+     * Synchronize thumbnail.
+     *
+     * @param array $path
+     * @return int
+     */
+    public static function synchronizeThumbnail(array $path): int
+    {
+        // load thumbnail files
+        $thumbFiles = [];
+        $thumbFinder = Finder::findFiles('*')->in(self::$parameters['thumbPath']);
+        foreach ($thumbFinder as $file) {
+            $basename = $file->getBaseName();
+            $lastDelimiter = strrpos($basename, '_');
+            $lastDot = strrpos($basename, '.');
+            // restore old name
+            $thumbFiles[$file->getPathname()] = substr($basename, 0, $lastDelimiter) . substr($basename, $lastDot);
+        }
+
+        // load external files
+        $pathFiles = [];
+        $pathFinder = Finder::findFiles('*')->in($path);
+        foreach ($pathFinder as $file) {
+            $pathFiles[$file->getPathname()] = $file->getBaseName();
+        }
+
+        $poc = 0;
+        $diff = array_diff($thumbFiles, $pathFiles);
+        foreach ($diff as $oldName => $file) {
+            if (unlink($oldName)) {
+                $poc++;
+            }
+        }
+        return $poc;
+    }
 
 
     /**
