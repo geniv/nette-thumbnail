@@ -22,6 +22,8 @@ require:
 Include in application
 ----------------------
 
+default resize flag: `SHRINK_ONLY`, via: https://doc.nette.org/cs/2.4/images
+
 neon configure:
 ```neon
 # thumbnail

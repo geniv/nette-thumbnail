@@ -33,6 +33,7 @@ class Thumbnail
 
 
     //TODO metodu statickou na synchronizaci konktretni slozky s filesystemem!
+    //TODO synchronize list path + thumb files
 
 
     /**
@@ -64,12 +65,13 @@ class Thumbnail
      * @param int|null    $quality
      * @return string
      * @throws \Nette\Utils\UnknownImageFileException
+     * @throws \Exception
      */
     public static function getSrcPath(string $path, string $file = null, int $width = null, int $height = null, array $flags = [], int $quality = null): string
     {
         // create thumbnail dir
         if (!file_exists(self::$parameters['thumbPath'])) {
-            mkdir(self::$parameters['thumbPath'], 0777, true);
+            throw new \Exception('Path: ' . self::$parameters['thumbPath'] . ' does not exist!');
         }
 
         $template = self::$parameters['template'];
@@ -123,13 +125,13 @@ class Thumbnail
 
         $src = self::$parameters['dir'] . $path . $file;
         if (!is_file($src) || !file_exists($src)) {
-            // create no image path - if no file or no exists
-            $src = self::$parameters['dir'] . self::$parameters['noImage'];
+            // if no file or no exists
+            return self::$parameters['dir'] . self::$parameters['noImage'];
         }
         // get path name from src
         $pathInfo = pathinfo($src);
 
-        $destination = self::$parameters['thumbPath'] . $pathInfo['filename'] . 'w' . $width . 'h' . $height . 'f' . $flag . 'q' . $quality . '.' . $pathInfo['extension'];
+        $destination = self::$parameters['thumbPath'] . $pathInfo['filename'] . '_w' . $width . 'h' . $height . 'f' . $flag . 'q' . $quality . '.' . $pathInfo['extension'];
         if (file_exists($src) && !file_exists($destination)) {
             $image = Image::fromFile($src);
             if ($width || $height) {
