@@ -27,6 +27,7 @@ class MacroSrc extends MacroSet
     {
         $me = new static($compiler);
         $me->addMacro('src', [$me, 'macroSrc'], null, [$me, 'macroSrc']);
+        $me->addMacro('thumb', [$me, 'macroThumb']);
     }
 
 
@@ -44,5 +45,22 @@ class MacroSrc extends MacroSet
             throw new CompileException('Modifiers are not allowed in ' . $node->getNotation());
         }
         return $writer->write('echo \' src="\'.Thumbnail\\Thumbnail::getSrcPath(%node.word, %node.args).\'"\'');
+    }
+
+
+    /**
+     * Macro thumb.
+     *
+     * @param MacroNode $node
+     * @param PhpWriter $writer
+     * @return string
+     * @throws CompileException
+     */
+    public function macroThumb(MacroNode $node, PhpWriter $writer)
+    {
+        if ($node->modifiers) {
+            throw new CompileException('Modifiers are not allowed in ' . $node->getNotation());
+        }
+        return $writer->write('echo Thumbnail\\Thumbnail::getSrcPath(%node.word, %node.args)');
     }
 }

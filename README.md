@@ -56,6 +56,7 @@ extensions:
 
 usage:
 ```latte
+{* src="..." *}
 <img {src 'www/images/', '1920x1080.png', 200, 150, ['FILL']}">
 <img  n:src="'www/images/', '1920x1080.png', 200, 150, ['FILL']">
 <img {src 'www/images/', '1920x1080.png', 200, 150, [], 8}>
@@ -64,8 +65,14 @@ usage:
 <img  n:src="'www/images/', '1920x1080.png', 200, 150">
 <img {src 'www/images/', '1920x1080.png', 200}>
 <img  n:src="'www/images/', '1920x1080.png', 200">
+<img {src 'www/images/', '1920x1080.png', 50%}>
+<img  n:src="'www/images/', '1920x1080.png', 50%">
 <img {src sablonaA, '1920x1080.png'}>
 <img  n:src="sablonaA, '1920x1080.png'">
+
+{* path/to/image.png *}
+{thumb 'www/images/', '1920x1080.png', 200, 150, ['FILL']}
+{thumb projectBlock, $item['profile_image']}
 ```
 
 presenters:
