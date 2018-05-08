@@ -38,9 +38,9 @@ neon configure:
 thumbnail:
     dir: %wwwDir%/../
     thumbPath: %wwwDir%/files/image/thumbnail/
-    noImage: www/images/error-small.png
+    noImage: www/images/no-image.svg
     template:
-        sablonaA:
+        projectBlock:
             path: www/images/
             width: 250
             height: 150
@@ -57,22 +57,19 @@ extensions:
 usage:
 ```latte
 {* src="..." *}
-<img {src 'www/images/', '1920x1080.png', 200, 150, ['FILL']}">
-<img  n:src="'www/images/', '1920x1080.png', 200, 150, ['FILL']">
-<img {src 'www/images/', '1920x1080.png', 200, 150, [], 8}>
-<img  n:src="'www/images/', '1920x1080.png', 200, 150, [], 8">
-<img {src 'www/images/', '1920x1080.png', 200, 150}>
-<img  n:src="'www/images/', '1920x1080.png', 200, 150">
-<img {src 'www/images/', '1920x1080.png', 200}>
-<img  n:src="'www/images/', '1920x1080.png', 200">
-<img {src 'www/images/', '1920x1080.png', 50%}>
-<img  n:src="'www/images/', '1920x1080.png', 50%">
-<img {src sablonaA, '1920x1080.png'}>
-<img  n:src="sablonaA, '1920x1080.png'">
+<img n:src="'www/images/', '1920x1080.png', 200, 150, ['FIT'], 75">
+<img n:src="'www/images/', '1920x1080.png', 200, 150, ['FILL']">
+<img n:src="'www/images/', '1920x1080.png', 200, 150">
+<img n:src="'www/images/', '1920x1080.png', 200">
+<img n:src="'www/images/', '1920x1080.png', 50%">
+<img n:src="projectBlock, '1920x1080.png'">
 
 {* path/to/image.png *}
 {thumb 'www/images/', '1920x1080.png', 200, 150, ['FILL']}
-{thumb projectBlock, $item['profile_image']}
+{thumb projectBlock, $item['image']}
+
+{* combine usage *}
+<img src="{thumb projectBlock, $item['image']}">
 ```
 
 presenters:

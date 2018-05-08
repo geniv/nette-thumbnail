@@ -26,8 +26,8 @@ class MacroSrc extends MacroSet
     public static function install(Latte\Compiler $compiler)
     {
         $me = new static($compiler);
-        $me->addMacro('src', [$me, 'macroSrc'], null, [$me, 'macroSrc']);
-        $me->addMacro('thumb', [$me, 'macroThumb']);
+        $me->addMacro('src', null, null, [$me, 'macroSrc']);    // n:src
+        $me->addMacro('thumb', [$me, 'macroThumb']);                       // {thumb }
     }
 
 
@@ -44,7 +44,7 @@ class MacroSrc extends MacroSet
         if ($node->modifiers) {
             throw new CompileException('Modifiers are not allowed in ' . $node->getNotation());
         }
-        return $writer->write('echo \' src="\'.Thumbnail\\Thumbnail::getSrcPath(%node.word, %node.args).\'"\'');
+        return $writer->write('echo \' src="\' . Thumbnail\\Thumbnail::getSrcPath(%node.word, %node.args) . \'"\'');
     }
 
 
