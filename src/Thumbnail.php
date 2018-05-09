@@ -40,6 +40,7 @@ class Thumbnail
      */
     public static function synchronizeThumbnail(array $path): int
     {
+        $poc = 0;
         // load thumbnail files
         $thumbFiles = [];
         $thumbFinder = Finder::findFiles('*')->in(self::$parameters['thumbPath']);
@@ -51,6 +52,19 @@ class Thumbnail
             $thumbFiles[$file->getPathname()] = substr($basename, 0, $lastDelimiter) . substr($basename, $lastDot);
         }
 
+        // remove duplicate files
+        $counts = array_count_values($thumbFiles);
+        $duplicate = array_filter($counts, function ($row) { return $row > 1; });
+        foreach ($duplicate as $item => $count) {
+            $pathInfo = pathinfo($item);
+            $duplicateFinder = Finder::findFiles($pathInfo['filename'] . '*')->in(self::$parameters['thumbPath']);
+            foreach ($duplicateFinder as $duplicateItem) {
+                if (unlink($duplicateItem->getPathname())) {
+                    $poc++;
+                }
+            }
+        }
+
         // load external files
         $pathFiles = [];
         $pathFinder = Finder::findFiles('*')->in($path);
@@ -58,7 +72,7 @@ class Thumbnail
             $pathFiles[$file->getPathname()] = $file->getBaseName();
         }
 
-        $poc = 0;
+        // remove different files
         $diff = array_diff($thumbFiles, $pathFiles);
         foreach ($diff as $oldName => $file) {
             if (unlink($oldName)) {
