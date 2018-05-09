@@ -58,6 +58,7 @@ usage:
 ```latte
 {* src="..." *}
 <img n:src="'www/images/', '1920x1080.png', 200, 150, ['FIT'], 75">
+<img n:src="'www/images/', '1920x1080.png', 200, 150, [], 6">
 <img n:src="'www/images/', '1920x1080.png', 200, 150, ['FILL']">
 <img n:src="'www/images/', '1920x1080.png', 200, 150">
 <img n:src="'www/images/', '1920x1080.png', 200">
