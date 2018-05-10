@@ -36,11 +36,11 @@ class Thumbnail
      * Synchronize thumbnail.
      *
      * @param array $path
-     * @return int
+     * @return array
      */
-    public static function synchronizeThumbnail(array $path): int
+    public static function synchronizeThumbnail(array $path): array
     {
-        $poc = 0;
+        $result = [];
         // load thumbnail files
         $thumbFiles = [];
         $thumbFinder = Finder::findFiles('*')->in(self::$parameters['thumbPath']);
@@ -60,7 +60,7 @@ class Thumbnail
             $duplicateFinder = Finder::findFiles($pathInfo['filename'] . '*')->in(self::$parameters['thumbPath']);
             foreach ($duplicateFinder as $duplicateItem) {
                 if (unlink($duplicateItem->getPathname())) {
-                    $poc++;
+                    $result[] = $duplicateItem->getPathname();
                 }
             }
         }
@@ -76,28 +76,28 @@ class Thumbnail
         $diff = array_diff($thumbFiles, $pathFiles);
         foreach ($diff as $oldName => $file) {
             if (unlink($oldName)) {
-                $poc++;
+                $result[] = $oldName;
             }
         }
-        return $poc;
+        return $result;
     }
 
 
     /**
      * Clean thumbnail.
      *
-     * @return int
+     * @return array
      */
-    public static function cleanThumbnail(): int
+    public static function cleanThumbnail(): array
     {
-        $poc = 0;
+        $result = [];
         $files = Finder::findFiles('*')->in(self::$parameters['thumbPath']);
         foreach ($files as $file) {
             if (unlink($file->getPathname())) {
-                $poc++;
+                $result[] = $file->getPathname();
             }
         }
-        return $poc;
+        return $result;
     }
 
 
