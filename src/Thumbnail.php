@@ -33,57 +33,6 @@ class Thumbnail
 
 
     /**
-     * Synchronize thumbnail.
-     *
-     * @param array $path
-     * @return array
-     */
-    public static function synchronizeThumbnail(array $path): array
-    {
-        $result = [];
-        // load thumbnail files
-        $thumbFiles = [];
-        $thumbFinder = Finder::findFiles('*')->in(self::$parameters['thumbPath']);
-        foreach ($thumbFinder as $file) {
-            $basename = $file->getBaseName();
-            $lastDelimiter = strrpos($basename, '_');
-            $lastDot = strrpos($basename, '.');
-            // restore old name
-            $thumbFiles[$file->getPathname()] = substr($basename, 0, $lastDelimiter) . substr($basename, $lastDot);
-        }
-
-        // remove duplicate files
-        $counts = array_count_values($thumbFiles);
-        $duplicate = array_filter($counts, function ($row) { return $row > 1; });
-        foreach ($duplicate as $item => $count) {
-            $pathInfo = pathinfo($item);
-            $duplicateFinder = Finder::findFiles($pathInfo['filename'] . '*')->in(self::$parameters['thumbPath']);
-            foreach ($duplicateFinder as $duplicateItem) {
-                if (unlink($duplicateItem->getPathname())) {
-                    $result[] = $duplicateItem->getPathname();
-                }
-            }
-        }
-
-        // load external files
-        $pathFiles = [];
-        $pathFinder = Finder::findFiles('*')->in($path);
-        foreach ($pathFinder as $file) {
-            $pathFiles[$file->getPathname()] = $file->getBaseName();
-        }
-
-        // remove different files
-        $diff = array_diff($thumbFiles, $pathFiles);
-        foreach ($diff as $oldName => $file) {
-            if (unlink($oldName)) {
-                $result[] = $oldName;
-            }
-        }
-        return $result;
-    }
-
-
-    /**
      * Clean thumbnail.
      *
      * @return array
@@ -98,6 +47,108 @@ class Thumbnail
             }
         }
         return $result;
+    }
+
+
+    /**
+     * Get thumb files.
+     *
+     * @return array
+     */
+    private static function getThumbFiles(): array
+    {
+        $result = [];
+        $thumbFinder = Finder::findFiles('*')->in(self::$parameters['thumbPath']);
+        foreach ($thumbFinder as $file) {
+            $basename = $file->getBaseName();
+            $specialDelimiter = strrpos($basename, '_');
+//            $pathEnd = strrpos($basename, 'pew');
+//            $prefixPath = null;
+//            if ($pathEnd) {
+//                $prefixPath = str_replace('S', '/', substr($basename, $specialDelimiter + 2, $pathEnd - strlen($basename)));
+//            }
+            $lastDot = strrpos($basename, '.');
+            // restore old name
+            $result[$file->getRealPath()] = substr($basename, 0, $specialDelimiter) . substr($basename, $lastDot);
+        }
+        return $result;
+    }
+
+
+    /**
+     * Get path files.
+     *
+     * @param array $path
+     * @return array
+     */
+    private static function getPathFiles(array $path): array
+    {
+        // load external files
+        $result = [];
+        $pathFinder = Finder::findFiles('*')->in($path);
+        foreach ($pathFinder as $file) {
+            $result[$file->getRealPath()] = $file->getBaseName();
+        }
+        return $result;
+    }
+
+
+    /**
+     * Synchronize thumbnail.
+     *
+     * @param array $path
+     * @return array
+     */
+    public static function synchronizeThumbnail(array $path): array
+    {
+        $result = [];
+
+        //TODO rebuild or removed - it was be lite check
+//        // remove duplicate files
+//        $counts = array_count_values($thumbFiles);
+//        $duplicate = array_filter($counts, function ($row) { return $row > 1; });
+//        foreach ($duplicate as $item => $count) {
+//            $pathInfo = pathinfo($item);
+//            $duplicateFinder = Finder::findFiles($pathInfo['filename'] . '*')->in(self::$parameters['thumbPath']);
+//            foreach ($duplicateFinder as $duplicateItem) {
+//                if (unlink($duplicateItem->getPathname())) {
+//                    $result[] = $duplicateItem->getPathname();
+//                }
+//            }
+//        }
+
+        // load thumbnail files
+        $thumbFiles = self::getThumbFiles();
+
+        // load path files
+        $pathFiles = self::getPathFiles($path);
+
+        // remove different files
+        $diff = array_diff($thumbFiles, $pathFiles);
+        foreach ($diff as $oldName => $file) {
+            if (unlink($oldName)) {
+                $result[] = $oldName;
+            }
+        }
+        return $result;
+    }
+
+
+    /**
+     * Get unused files.
+     *
+     * @param array $path
+     * @return array
+     */
+    public static function getUnusedFiles(array $path): array
+    {
+        // load thumbnail files
+        $thumbFiles = self::getThumbFiles();
+
+        // load path files
+        $pathFiles = self::getPathFiles($path);
+
+        return $diff = array_diff($pathFiles, $thumbFiles);
     }
 
 
@@ -183,6 +234,7 @@ class Thumbnail
             '%' => 'P', // percent
             '/' => 'S', // slash
         ];
+        // path, width, height, flag, quality
         $specialName = str_replace(array_keys($replace), $replace, 'p' . $path . 'w' . $width . 'h' . $height . 'f' . $flag . 'q' . $quality);
         $destination = self::$parameters['thumbPath'] . $pathInfo['filename'] . '_' . $specialName . '.' . $pathInfo['extension'];
         if (file_exists($src) && !file_exists($destination)) {
