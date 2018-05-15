@@ -243,6 +243,11 @@ class Thumbnail
                 $image->resize($width, $height, $flag);
             }
             $image->save($destination, $quality);
+
+//            if ($wait=true){
+//                return self::$parameters['dir'] .'www/images/wait.gif';
+//                die;
+//            }
         }
         return $destination;
     }
