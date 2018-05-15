@@ -179,8 +179,12 @@ class Thumbnail
         $pathInfo = pathinfo($src);
 
         // sanitize name
-        $replace = ['%' => 'P'];
-        $destination = str_replace(array_keys($replace), $replace, self::$parameters['thumbPath'] . $pathInfo['filename'] . '_w' . $width . 'h' . $height . 'f' . $flag . 'q' . $quality . '.' . $pathInfo['extension']);
+        $replace = [
+            '%' => 'P', // percent
+            '/' => 'S', // slash
+        ];
+        $specialName = str_replace(array_keys($replace), $replace, 'p' . $path . 'w' . $width . 'h' . $height . 'f' . $flag . 'q' . $quality);
+        $destination = self::$parameters['thumbPath'] . $pathInfo['filename'] . '_' . $specialName . '.' . $pathInfo['extension'];
         if (file_exists($src) && !file_exists($destination)) {
             $image = Image::fromFile($src);
             if ($width || $height) {
