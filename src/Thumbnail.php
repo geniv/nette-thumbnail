@@ -244,10 +244,16 @@ class Thumbnail
             }
             $image->save($destination, $quality);
 
-//            if ($wait=true){
-//                return self::$parameters['dir'] .'www/images/wait.gif';
-//                die;
-//            }
+            // lazy loading - for big count pictures
+            if (self::$parameters['lazyLoad']) {
+                // complete image for <img src="...
+                die(self::$parameters['waitImage'] . '">');
+            }
+
+            // wait image
+            if (self::$parameters['waitImage']) {
+                return self::$parameters['dir'] . self::$parameters['waitImage'];
+            }
         }
         return $destination;
     }
