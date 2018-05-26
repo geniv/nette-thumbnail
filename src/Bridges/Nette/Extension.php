@@ -22,6 +22,7 @@ class Extension extends CompilerExtension
         'thumbPath' => null,
         'noImage'   => null,
         'waitImage' => null,
+        'lazyLoad'  => false,
         'template'  => [],
     ];
 

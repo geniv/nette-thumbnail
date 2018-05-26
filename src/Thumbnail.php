@@ -244,11 +244,13 @@ class Thumbnail
             }
             $image->save($destination, $quality);
 
-//            //TODO progressive loading
-//            if ($progressive = true) {
-//                die(' src="' . self::$parameters['waitImage'] . '">');
-//            }
+            // lazy loading - for big count pictures
+            if (self::$parameters['lazyLoad']) {
+                // complete image for <img src="...
+                die(self::$parameters['waitImage'] . '">');
+            }
 
+            // wait image
             if (self::$parameters['waitImage']) {
                 return self::$parameters['dir'] . self::$parameters['waitImage'];
             }

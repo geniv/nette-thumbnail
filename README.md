@@ -61,17 +61,14 @@ usage:
 or
 {* template, image *}
 
-{* src="..." *}
-<img n:src="'www/images/', '1920x1080.png', 200, 150, ['FIT'], 75">
-<img n:src="'www/images/', '1920x1080.png', 200, 150, [], 6">
-<img n:src="'www/images/', '1920x1080.png', 200, 150, ['FILL']">
-<img n:src="'www/images/', '1920x1080.png', 200, 150">
-<img n:src="'www/images/', '1920x1080.png', 50%, 75%">
-<img n:src="'www/images/', '1920x1080.png', 200">
-<img n:src="projectBlock, '1920x1080.png'">
-
 {* path/to/image.png *}
+{thumb 'www/images/', '1920x1080.png', 200, 150, ['FIT'], 75}
+{thumb 'www/images/', '1920x1080.png', 200, 150, [], 6}
 {thumb 'www/images/', '1920x1080.png', 200, 150, ['FILL']}
+{thumb 'www/images/', '1920x1080.png', 200, 150}
+{thumb 'www/images/', '1920x1080.png', '50%', '75%'}
+{thumb 'www/images/', '1920x1080.png', 200}
+{thumb projectBlock, '1920x1080.png'}
 {thumb projectBlock, $item['image']}
 
 {* combine usage *}
@@ -80,6 +77,8 @@ or
 
 presenters:
 ```php
-Thumbnail::cleanThumbnail(): int
-Thumbnail::synchronizeThumbnail([__DIR__.'/../../www/images/']) : int
+Thumbnail::cleanThumbnail(): array
+Thumbnail::synchronizeThumbnail([__DIR__.'/../../www/images/']) : array
+Thumbnail::getUnusedFiles([__DIR__.'/../../www/images/']) : array
+Thumbnail::getSrcPath(string $path, string $file = null, string $width = null, string $height = null, array $flags = [], int $quality = null): string
 ```
