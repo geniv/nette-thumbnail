@@ -21,6 +21,7 @@ class Extension extends CompilerExtension
         'dir'       => null,
         'thumbPath' => null,
         'noImage'   => null,
+        'waitImage' => null,
         'template'  => [],
     ];
 

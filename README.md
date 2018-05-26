@@ -39,6 +39,7 @@ thumbnail:
     dir: %wwwDir%/../
     thumbPath: %wwwDir%/files/image/thumbnail/
     noImage: www/images/no-image.svg
+    waitImage: www/images/wait-image.gif
     template:
         projectBlock:
             path: www/images/

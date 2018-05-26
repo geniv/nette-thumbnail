@@ -244,10 +244,14 @@ class Thumbnail
             }
             $image->save($destination, $quality);
 
-//            if ($wait=true){
-//                return self::$parameters['dir'] .'www/images/wait.gif';
-//                die;
+//            //TODO progressive loading
+//            if ($progressive = true) {
+//                die(' src="' . self::$parameters['waitImage'] . '">');
 //            }
+
+            if (self::$parameters['waitImage']) {
+                return self::$parameters['dir'] . self::$parameters['waitImage'];
+            }
         }
         return $destination;
     }
