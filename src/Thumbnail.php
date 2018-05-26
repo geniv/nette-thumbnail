@@ -188,10 +188,10 @@ class Thumbnail
     /**
      * Get image flag.
      *
-     * @param $flags
+     * @param array $flags
      * @return int
      */
-    private static function getImageFlag($flags): int
+    private static function getImageFlag(array $flags): int
     {
         $res = 0;
         foreach ($flags as $flag) {
