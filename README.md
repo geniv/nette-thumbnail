@@ -32,7 +32,7 @@ via: https://api.nette.org/2.4/source-Utils.Image.php.html#512-549
 - GIF - nothing
 - WEBP - 0-100; default: 80
 
-`lazyLoad: true` is only for <img src="..."> because it is terminated php after generate one picture. `waitImage` must be defined!
+`lazyLoad: true` is only for `<img src="...">` because it is terminated php after generate one picture. `waitImage` must be defined!
 
 neon configure:
 ```neon
