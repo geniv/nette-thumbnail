@@ -188,16 +188,60 @@ class Thumbnail
     /**
      * Get image flag.
      *
-     * @param $flags
+     * @param array $flags
      * @return int
      */
-    private static function getImageFlag($flags): int
+    private static function getImageFlag(array $flags): int
     {
         $res = 0;
         foreach ($flags as $flag) {
             $res |= constant(Image::class . '::' . $flag);
         }
         return $res;
+    }
+
+
+    /**
+     * Set default image flag.
+     *
+     * @param int $flag
+     */
+    public function setDefaultImageFlag(int $flag)
+    {
+        self::$parameters['defaultImageFlag'] = $flag;
+    }
+
+
+    /**
+     * Set no image.
+     *
+     * @param string $path
+     */
+    public function setNoImage(string $path)
+    {
+        self::$parameters['noImage'] = $path;
+    }
+
+
+    /**
+     * Set wait image.
+     *
+     * @param string|null $path
+     */
+    public static function setWaitImage(string $path = null)
+    {
+        self::$parameters['waitImage'] = $path;
+    }
+
+
+    /**
+     * Set lazy load.
+     *
+     * @param bool $state
+     */
+    public function setLazyLoad(bool $state)
+    {
+        self::$parameters['lazyLoad'] = $state;
     }
 
 
@@ -218,7 +262,7 @@ class Thumbnail
         if ($flags) {
             $flag = self::getImageFlag($flags);
         } else {
-            $flag = Image::SHRINK_ONLY;
+            $flag = self::$parameters['defaultImageFlag'];
         }
 
         $src = self::$parameters['dir'] . $path . $file;
@@ -245,7 +289,7 @@ class Thumbnail
             $image->save($destination, $quality);
 
             // lazy loading - for big count pictures
-            if (self::$parameters['lazyLoad']) {
+            if (self::$parameters['lazyLoad'] && self::$parameters['waitImage']) {
                 // complete image for <img src="...
                 die(self::$parameters['waitImage'] . '">');
             }

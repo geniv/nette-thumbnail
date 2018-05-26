@@ -4,6 +4,7 @@ namespace Thumbnail\Bridges\Nette;
 
 use Nette\DI\CompilerExtension;
 use Nette\PhpGenerator\ClassType;
+use Nette\Utils\Image;
 use Thumbnail\MacroSrc;
 use Thumbnail\Thumbnail;
 
@@ -18,12 +19,13 @@ class Extension extends CompilerExtension
 {
     /** @var array default values */
     private $defaults = [
-        'dir'       => null,
-        'thumbPath' => null,
-        'noImage'   => null,
-        'waitImage' => null,
-        'lazyLoad'  => false,
-        'template'  => [],
+        'dir'              => null,
+        'thumbPath'        => null,
+        'noImage'          => null,
+        'waitImage'        => null,
+        'lazyLoad'         => false,
+        'defaultImageFlag' => Image::SHRINK_ONLY,
+        'template'         => [],
     ];
 
 
