@@ -32,6 +32,8 @@ via: https://api.nette.org/2.4/source-Utils.Image.php.html#512-549
 - GIF - nothing
 - WEBP - 0-100; default: 80
 
+`lazyLoad: true` is only for <img src="..."> because it is terminated php after generate one picture. `waitImage` must be defined!
+
 neon configure:
 ```neon
 # thumbnail
@@ -39,7 +41,9 @@ thumbnail:
     dir: %wwwDir%/../
     thumbPath: %wwwDir%/files/image/thumbnail/
     noImage: www/images/no-image.svg
-    waitImage: www/images/wait-image.gif
+#    waitImage: www/images/wait-image.gif
+#    lazyLoad: false
+#    defaultImageFlag: Nette\Utils\Image::SHRINK_ONLY
     template:
         projectBlock:
             path: www/images/
@@ -77,6 +81,11 @@ or
 
 presenters:
 ```php
+setDefaultImageFlag(int $flag)
+setNoImage(string $path)
+setWaitImage(string $path)
+setLazyLoad(bool $state)
+
 Thumbnail::cleanThumbnail(): array
 Thumbnail::synchronizeThumbnail([__DIR__.'/../../www/images/']) : array
 Thumbnail::getUnusedFiles([__DIR__.'/../../www/images/']) : array
