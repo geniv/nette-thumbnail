@@ -19,13 +19,13 @@ class Extension extends CompilerExtension
 {
     /** @var array default values */
     private $defaults = [
-        'dir'              => null,
-        'thumbPath'        => null,
-        'noImage'          => null,
-        'waitImage'        => null,
-        'lazyLoad'         => false,
-        'defaultImageFlag' => Image::SHRINK_ONLY,
-        'template'         => [],
+        'dir'         => null,
+        'thumbPath'   => null,
+        'noImage'     => null,
+        'waitImage'   => null,
+        'lazyLoad'    => false,
+        'defaultFlag' => Image::SHRINK_ONLY,
+        'template'    => [],
     ];
 
 

@@ -43,7 +43,7 @@ thumbnail:
     noImage: www/images/no-image.svg
 #    waitImage: www/images/wait-image.gif
 #    lazyLoad: false
-#    defaultImageFlag: Nette\Utils\Image::SHRINK_ONLY
+#    defaultFlag: Nette\Utils\Image::SHRINK_ONLY
     template:
         projectBlock:
             path: www/images/
