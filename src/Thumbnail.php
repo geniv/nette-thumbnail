@@ -208,7 +208,7 @@ class Thumbnail
      */
     public function setDefaultImageFlag(int $flag)
     {
-        self::$parameters['defaultImageFlag'] = $flag;
+        self::$parameters['defaultFlag'] = $flag;
     }
 
 
@@ -262,7 +262,7 @@ class Thumbnail
         if ($flags) {
             $flag = self::getImageFlag($flags);
         } else {
-            $flag = self::$parameters['defaultImageFlag'];
+            $flag = self::$parameters['defaultFlag'];
         }
 
         $src = self::$parameters['dir'] . $path . $file;
