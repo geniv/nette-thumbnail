@@ -5,6 +5,7 @@ namespace Thumbnail;
 use Nette\StaticClass;
 use Nette\Utils\Finder;
 use Nette\Utils\Image;
+use Nette\Utils\UnknownImageFileException;
 
 
 /**
@@ -162,7 +163,7 @@ class Thumbnail
      * @param array       $flags
      * @param int|null    $quality
      * @return string
-     * @throws \Nette\Utils\UnknownImageFileException
+     * @throws UnknownImageFileException
      * @throws \Exception
      */
     public static function getSrcPath(string $path, string $file = null, string $width = null, string $height = null, array $flags = [], int $quality = null): string
@@ -255,7 +256,6 @@ class Thumbnail
      * @param array       $flags
      * @param int|null    $quality
      * @return string
-     * @throws \Nette\Utils\UnknownImageFileException
      */
     private static function resizeImage(string $path, string $file = null, $width = null, $height = null, array $flags = [], int $quality = null)
     {
@@ -282,11 +282,16 @@ class Thumbnail
         $specialName = str_replace(array_keys($replace), $replace, 'p' . $path . 'w' . $width . 'h' . $height . 'f' . $flag . 'q' . $quality);
         $destination = self::$parameters['thumbPath'] . $pathInfo['filename'] . '_' . $specialName . '.' . $pathInfo['extension'];
         if (file_exists($src) && !file_exists($destination)) {
-            $image = Image::fromFile($src);
-            if ($width || $height) {
-                $image->resize($width, $height, $flag);
+            try {
+                $image = Image::fromFile($src);
+                if ($width || $height) {
+                    $image->resize($width, $height, $flag);
+                }
+                $image->save($destination, $quality);
+            } catch (UnknownImageFileException $e) {
+                // if invalid file
+                return self::$parameters['dir'] . self::$parameters['noImage'];
             }
-            $image->save($destination, $quality);
 
             // lazy loading - for big count pictures
             if (self::$parameters['lazyLoad'] && self::$parameters['waitImage']) {
