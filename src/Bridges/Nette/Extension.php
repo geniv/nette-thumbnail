@@ -5,7 +5,7 @@ namespace Thumbnail\Bridges\Nette;
 use Nette\DI\CompilerExtension;
 use Nette\PhpGenerator\ClassType;
 use Nette\Utils\Image;
-use Thumbnail\MacroSrc;
+use Thumbnail\MacroThumb;
 use Thumbnail\Thumbnail;
 
 
@@ -42,7 +42,7 @@ class Extension extends CompilerExtension
 
         // load macro to latte
         $latteFactory = $builder->getDefinition('latte.latteFactory');
-        $latteFactory->addSetup(MacroSrc::class . '::install(?->getCompiler())', ['@self']);
+        $latteFactory->addSetup(MacroThumb::class . '::install(?->getCompiler())', ['@self']);
     }
 
 

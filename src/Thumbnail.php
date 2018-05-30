@@ -163,7 +163,6 @@ class Thumbnail
      * @param array       $flags
      * @param int|null    $quality
      * @return string
-     * @throws UnknownImageFileException
      * @throws \Exception
      */
     public static function getSrcPath(string $path, string $file = null, string $width = null, string $height = null, array $flags = [], int $quality = null): string

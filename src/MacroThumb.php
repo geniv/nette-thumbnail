@@ -10,12 +10,12 @@ use Latte\PhpWriter;
 
 
 /**
- * Class MacroSrc
+ * Class MacroThumb
  *
  * @author  geniv
  * @package Thumbnail
  */
-class MacroSrc extends MacroSet
+class MacroThumb extends MacroSet
 {
 
     /**
