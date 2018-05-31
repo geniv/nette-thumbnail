@@ -77,6 +77,9 @@ or
 
 {* combine usage *}
 <img src="{thumb projectBlock, $item['image']}">
+
+{* accept modifier dataStream for base64 *}
+{thumb projectBlock, $item['image']|dataStream}
 ```
 
 presenters:
