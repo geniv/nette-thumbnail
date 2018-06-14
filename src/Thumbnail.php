@@ -277,8 +277,9 @@ class Thumbnail
             '%' => 'P', // percent
             '/' => 'S', // slash
         ];
+        $mt = filemtime($src);  // modify time source image
         // path, width, height, flag, quality
-        $specialName = str_replace(array_keys($replace), $replace, 'p' . $path . 'w' . $width . 'h' . $height . 'f' . $flag . 'q' . $quality);
+        $specialName = str_replace(array_keys($replace), $replace, 'p' . $path . 'w' . $width . 'h' . $height . 'f' . $flag . 'q' . $quality . 'mt' . $mt);
         $destination = self::$parameters['thumbPath'] . $pathInfo['filename'] . '_' . $specialName . '.' . $pathInfo['extension'];
         if (file_exists($src) && !file_exists($destination)) {
             try {
@@ -295,7 +296,7 @@ class Thumbnail
             // lazy loading - for big count pictures
             if (self::$parameters['lazyLoad'] && self::$parameters['waitImage']) {
                 // complete image for <img src="...
-                die(self::$parameters['waitImage'] . '">');
+                die(self::$parameters['dir'] . self::$parameters['waitImage'] . '">');
             }
 
             // wait image
