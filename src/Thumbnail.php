@@ -154,6 +154,20 @@ class Thumbnail
 
 
     /**
+     * Is src path exists.
+     *
+     * @param string      $path
+     * @param string|null $file
+     * @return bool
+     */
+    public static function isSrcPathExists(string $path, string $file = null): bool
+    {
+        $src = self::$parameters['dir'] . $path . $file;
+        return file_exists($src) && is_file($src);
+    }
+
+
+    /**
      * Get src path.
      *
      * @param string      $path

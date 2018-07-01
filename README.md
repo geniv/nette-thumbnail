@@ -92,5 +92,6 @@ Thumbnail::setLazyLoad(bool $state)
 Thumbnail::cleanThumbnail(): array
 Thumbnail::synchronizeThumbnail([__DIR__.'/../../www/images/']) : array
 Thumbnail::getUnusedFiles([__DIR__.'/../../www/images/']) : array
+Thumbnail::isSrcPathExists(string $path, string $file = null): bool
 Thumbnail::getSrcPath(string $path, string $file = null, string $width = null, string $height = null, array $flags = [], int $quality = null): string
 ```
