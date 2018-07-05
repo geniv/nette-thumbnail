@@ -272,16 +272,18 @@ class Thumbnail
      */
     private static function resizeImage(string $path, string $file = null, $width = null, $height = null, array $flags = [], int $quality = null)
     {
+        $parameters = self::$parameters;
         if ($flags) {
             $flag = self::getImageFlag($flags);
         } else {
-            $flag = self::$parameters['defaultFlag'];
+            $flag = $parameters['defaultFlag'];
         }
 
-        $src = self::$parameters['dir'] . $path . $file;
+        $dir = $parameters['dir'];
+        $src = $dir . $path . $file;
         if (!is_file($src) || !file_exists($src)) {
             // if no file or no exists
-            return self::$parameters['dir'] . self::$parameters['noImage'];
+            return $dir . $parameters['noImage'];
         }
         // get path name from src
         $pathInfo = pathinfo($src);
@@ -294,8 +296,8 @@ class Thumbnail
         $mt = filemtime($src);  // modify time source image
         // path, width, height, flag, quality
         $specialName = str_replace(array_keys($replace), $replace, 'p' . $path . 'w' . $width . 'h' . $height . 'f' . $flag . 'q' . $quality . 'mt' . $mt);
-        $destination = self::$parameters['thumbPath'] . $pathInfo['filename'] . '_' . $specialName . '.' . $pathInfo['extension'];
-        if (file_exists($src) && !file_exists($destination)) {
+        $destination = $parameters['thumbPath'] . $pathInfo['filename'] . '_' . $specialName . '.' . $pathInfo['extension'];
+        if (!file_exists($destination) && file_exists($src)) {
             try {
                 $image = Image::fromFile($src);
                 if ($width || $height) {
@@ -304,18 +306,18 @@ class Thumbnail
                 $image->save($destination, $quality);
             } catch (UnknownImageFileException $e) {
                 // if invalid file
-                return self::$parameters['dir'] . self::$parameters['noImage'];
+                return $dir . $parameters['noImage'];
             }
 
             // lazy loading - for big count pictures
-            if (self::$parameters['lazyLoad'] && self::$parameters['waitImage']) {
+            if ($parameters['lazyLoad'] && $parameters['waitImage']) {
                 // complete image for <img src="...
-                die(self::$parameters['dir'] . self::$parameters['waitImage'] . '">');
+                die($dir . $parameters['waitImage'] . '">');
             }
 
             // wait image
-            if (self::$parameters['waitImage']) {
-                return self::$parameters['dir'] . self::$parameters['waitImage'];
+            if ($parameters['waitImage']) {
+                return $dir . $parameters['waitImage'];
             }
         }
         return $destination;
