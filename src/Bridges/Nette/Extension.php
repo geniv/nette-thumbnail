@@ -25,6 +25,7 @@ class Extension extends CompilerExtension
         'waitImage'   => null,
         'lazyLoad'    => false,
         'defaultFlag' => Image::SHRINK_ONLY,
+        'cache'       => false,
         'template'    => [],
     ];
 

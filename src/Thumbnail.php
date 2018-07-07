@@ -2,6 +2,8 @@
 
 namespace Thumbnail;
 
+use Nette\Caching\Cache;
+use Nette\Caching\IStorage;
 use Nette\StaticClass;
 use Nette\Utils\Finder;
 use Nette\Utils\Image;
@@ -20,16 +22,20 @@ class Thumbnail
 
     /** @var array */
     private static $parameters = [];
+    /** @var Cache */
+    private static $cache;
 
 
     /**
      * Thumbnail constructor.
      *
-     * @param array $parameters
+     * @param array    $parameters
+     * @param IStorage $storage
      */
-    public function __construct(array $parameters)
+    public function __construct(array $parameters, IStorage $storage)
     {
         self::$parameters = $parameters;
+        self::$cache = new Cache($storage, 'Thumbnail');
     }
 
 
@@ -181,19 +187,30 @@ class Thumbnail
      */
     public static function getSrcPath(string $path, string $file = null, string $width = null, string $height = null, array $flags = [], int $quality = null): string
     {
-        // create thumbnail dir
-        if (!file_exists(self::$parameters['thumbPath'])) {
-            throw new \Exception('Path: ' . self::$parameters['thumbPath'] . ' does not exist!');
-        }
+        $cacheName = 'getSrcPath' . $path . $file . $width . $height . implode($flags) . $quality;
+        $destination = (self::$parameters['cache'] ? self::$cache->load($cacheName) : null);
+        if ($destination === null) {
+            // create thumbnail dir
+            if (!file_exists(self::$parameters['thumbPath'])) {
+                throw new \Exception('Path: ' . self::$parameters['thumbPath'] . ' does not exist!');
+            }
 
-        $template = self::$parameters['template'];
-        if (isset($template[$path])) {
-            // resize image by template
-            $conf = $template[$path];
-            $destination = self::resizeImage($conf['path'], $file, $conf['width'] ?? null, $conf['height'] ?? null, $conf['flags'] ?? [], $conf['quality'] ?? null);
-        } else {
-            // resize image by path
-            $destination = self::resizeImage($path, $file, $width, $height, $flags, $quality);
+            $template = self::$parameters['template'];
+            if (isset($template[$path])) {
+                // resize image by template
+                $conf = $template[$path];
+                $destination = self::resizeImage($conf['path'], $file, $conf['width'] ?? null, $conf['height'] ?? null, $conf['flags'] ?? [], $conf['quality'] ?? null);
+            } else {
+                // resize image by path
+                $destination = self::resizeImage($path, $file, $width, $height, $flags, $quality);
+            }
+
+            if (self::$parameters['cache']) {   // only for cache
+                try {
+                    self::$cache->save($cacheName, $destination, [Cache::FILES => [self::$parameters['dir'] . $path . $file]]);
+                } catch (\Throwable $e) {
+                }
+            }
         }
         return substr($destination, strlen(realpath(self::$parameters['dir'])) + 1);
     }
