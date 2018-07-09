@@ -89,6 +89,7 @@ Thumbnail::setDefaultImageFlag(int $flag)
 Thumbnail::setNoImage(string $path)
 Thumbnail::setWaitImage(string $path)
 Thumbnail::setLazyLoad(bool $state)
+Thumbnail::setCache(bool $state)
 
 Thumbnail::cleanThumbnail(): array
 Thumbnail::synchronizeThumbnail([__DIR__.'/../../www/images/']) : array

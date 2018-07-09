@@ -277,6 +277,17 @@ class Thumbnail
 
 
     /**
+     * Set cache.
+     *
+     * @param bool $state
+     */
+    public function setCache(bool $state)
+    {
+        self::$parameters['cache'] = $state;
+    }
+
+
+    /**
      * Resize image.
      *
      * @param string      $path
