@@ -76,6 +76,8 @@ or
 {thumb projectBlock, '1920x1080.png'}
 {thumb projectBlock, $item['image']}
 
+{thumb $presenter->context->parameters['gallery']['pathToImage'], $item['image'], 120, 121}
+
 {* combine usage *}
 <img src="{thumb projectBlock, $item['image']}">
 
@@ -89,6 +91,7 @@ Thumbnail::setDefaultImageFlag(int $flag)
 Thumbnail::setNoImage(string $path)
 Thumbnail::setWaitImage(string $path)
 Thumbnail::setLazyLoad(bool $state)
+Thumbnail::setCache(bool $state)
 
 Thumbnail::cleanThumbnail(): array
 Thumbnail::synchronizeThumbnail([__DIR__.'/../../www/images/']) : array
