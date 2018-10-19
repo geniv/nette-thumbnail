@@ -325,6 +325,13 @@ class Thumbnail
         // path, width, height, flag, quality
         $specialName = str_replace(array_keys($replace), $replace, 'p' . $path . 'w' . $width . 'h' . $height . 'f' . $flag . 'q' . $quality . 'mt' . $mt);
         $destination = $parameters['thumbPath'] . $pathInfo['filename'] . '_' . $specialName . '.' . $pathInfo['extension'];
+
+        // quick render src, if width and height are not defined (tip by @hermajan)
+        if (file_exists($src) && !$width && !$height) {
+            return $src;
+        }
+
+        // prepare resize
         if (!file_exists($destination) && file_exists($src)) {
             try {
                 $image = Image::fromFile($src);
