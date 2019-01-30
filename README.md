@@ -83,6 +83,10 @@ or
 
 {* accept modifier dataStream for base64 *}
 {thumb projectBlock, $item['image']|dataStream}
+
+{* example moutput: *}
+{* output is not contains absolute url! *}
+{* www/images/1920x1080-131745-2019-01-28-00-37-50_p..SwwwSfilesSfileSwh64f1qmt1548632270.jpg *}
 ```
 
 presenters:
