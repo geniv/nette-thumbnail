@@ -9,14 +9,17 @@ $ composer require geniv/nette-thumbnail
 ```
 or
 ```json
-"geniv/nette-thumbnail": ">=1.0.0"
+"geniv/nette-thumbnail": ">=1.0"
 ```
 
 require:
 ```json
-"php": ">=7.0.0",
-"nette/nette": ">=2.4.0",
-"nette/finder": ">=2.4.0"
+"php": ">=7.0",
+"nette/caching": ">=2.5",
+"nette/di": "^2.4",
+"nette/php-generator": "^2.4",
+"nette/utils": ">=2.4",
+"latte/latte": "^2.4"
 ```
 
 Include in application
@@ -83,6 +86,10 @@ or
 
 {* accept modifier dataStream for base64 *}
 {thumb projectBlock, $item['image']|dataStream}
+
+{* example output: *}
+{* output is not contains absolute url! eg: *}
+{* www/images/1920x1080-131745-2019-01-28-00-37-50_p..SwwwSfilesSfileSwh64f1qmt1548632270.jpg *}
 ```
 
 presenters:
