@@ -9,17 +9,17 @@ $ composer require geniv/nette-thumbnail
 ```
 or
 ```json
-"geniv/nette-thumbnail": ">=1.0"
+"geniv/nette-thumbnail": "^1.0"
 ```
 
 require:
 ```json
 "php": ">=7.0",
 "nette/caching": ">=2.5",
-"nette/di": "^2.4",
-"nette/php-generator": "^2.4",
+"nette/di": ">=2.4",
+"nette/php-generator": ">=2.4",
 "nette/utils": ">=2.4",
-"latte/latte": "^2.4"
+"latte/latte": ">=2.4"
 ```
 
 Include in application
