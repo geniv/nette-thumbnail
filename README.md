@@ -9,7 +9,7 @@ $ composer require geniv/nette-thumbnail
 ```
 or
 ```json
-"geniv/nette-thumbnail": "^1.0"
+"geniv/nette-thumbnail": "^1.1"
 ```
 
 require:
