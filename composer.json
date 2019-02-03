@@ -16,10 +16,10 @@
   "require": {
     "php": ">=7.0",
     "nette/caching": ">=2.5",
-    "nette/di": "^2.4",
-    "nette/php-generator": "^2.4",
+    "nette/di": ">=2.4",
+    "nette/php-generator": ">=2.4",
     "nette/utils": ">=2.4",
-    "latte/latte": "^2.4"
+    "latte/latte": ">=2.4"
   },
   "autoload": {
     "classmap": [
