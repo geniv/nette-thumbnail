@@ -14,7 +14,7 @@ or
 
 require:
 ```json
-"php": ">=7.0",
+"php": ">=7.1",
 "nette/caching": ">=3.0",
 "nette/di": ">=3.0",
 "nette/php-generator": ">=3.0",
