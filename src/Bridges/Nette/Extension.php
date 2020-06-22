@@ -43,7 +43,7 @@ class Extension extends CompilerExtension
 
         // load macro to latte
         $latteFactory = $builder->getDefinition('latte.latteFactory');
-        $latteFactory->addSetup(MacroThumb::class . '::install(?->getCompiler())', ['@self']);
+        $latteFactory->getResultDefinition()->addSetup(MacroThumb::class . '::install(?->getCompiler())', ['@self']);
     }
 
 
