@@ -13,6 +13,7 @@ use Thumbnail\Thumbnail;
  * Class Extension
  *
  * @author  geniv
+ * @author  hermajan
  * @package Thumbnail\Bridges\Nette
  */
 class Extension extends CompilerExtension
