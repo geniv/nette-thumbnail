@@ -43,6 +43,7 @@ neon configure:
 thumbnail:
     dir: %wwwDir%/../
     thumbPath: %wwwDir%/files/image/thumbnail/
+    thumbUrl: https://example.com # or use %baseUrl% from parameters section
     noImage: www/images/no-image.svg
 #    waitImage: www/images/wait-image.gif
 #    lazyLoad: false

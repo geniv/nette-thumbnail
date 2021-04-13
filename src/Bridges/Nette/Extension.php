@@ -21,6 +21,7 @@ class Extension extends CompilerExtension
     private $defaults = [
         'dir'         => null,
         'thumbPath'   => null,
+        'thumbUrl'    => null,
         'noImage'     => null,
         'waitImage'   => null,
         'lazyLoad'    => false,
