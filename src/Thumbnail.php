@@ -212,7 +212,12 @@ class Thumbnail
                 }
             }
         }
-        return substr($destination, strlen(realpath(self::$parameters['dir'])) + 1);
+        $destination = substr($destination, strlen(realpath(self::$parameters['dir'])) + 1);
+
+        if(isset(self::$parameters['thumbUrl'])) {
+            $destination = self::$parameters['thumbUrl'] . str_replace('www', '', $destination);
+        }
+        return $destination;
     }
 
 
